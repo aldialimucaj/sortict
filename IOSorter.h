@@ -3,6 +3,8 @@
   *
   *
   */
+#ifndef _IOSORTER_
+#define _IOSORTER_
 
 #include <iostream>
 #include <string>
@@ -14,5 +16,8 @@ class IOSorter
 {
 	public:
 		string getPath();
+                bool isPathCorrect(const string path);
 
 };
+
+#endif
