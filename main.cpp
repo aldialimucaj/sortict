@@ -16,13 +16,15 @@ using namespace std;
  * Main function for sortit 
  */
 int main(int argc, char** argv) {
-    
+
     Sortit sorter;
     IOSorter iosorter;
-    
+
     string path = iosorter.getPath();
     sorter.sort(path);
-    
+    sorter.createStructure(path, 0);
+
+
     return 0;
 }
 

@@ -1,30 +1,43 @@
 #include <iostream>
+#include <boost/filesystem.hpp>
 #include <string>
 #include <sstream>
 #include <dirent.h>
+#include <boost/filesystem/operations.hpp>
 #include "IOSorter.h"
 
 
 using namespace std;
+using namespace boost::filesystem;
 
+IOSorter::IOSorter() {
 
-string IOSorter::getPath()
-{
-	string _path;
-	
-	cout << "Path to sort: " << endl;
-	getline(cin, _path);
-	
-        return _path;
 }
 
-bool IOSorter::isPathCorrect(const string path)
-{
-    char* s = const_cast<char*>(path.c_str());
-    if (opendir(s) != NULL){
-        return true;
+IOSorter::~IOSorter() {
+
+}
+
+string IOSorter::getPath() {
+    string _path;
+
+    cout << "Path to sort: " << endl;
+    getline(cin, _path);
+
+    return _path;
+}
+
+void IOSorter::secureCreateFolder(const string dirPath) {
+    path _path(dirPath);
+
+    if (!is_directory(_path)) {
+        create_directory(_path);
     }
-    
-    return false;
-    
+}
+
+bool IOSorter::isPathCorrect(const string dir_path) {
+    path _path(dir_path);
+
+    return is_directory(_path);
+
 }
