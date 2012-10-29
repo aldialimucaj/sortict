@@ -44,7 +44,7 @@ public:
      * @param depth Depth of the folders structure. 0 is first level with A-Z.
      * If it is 1 then folder A for example gets subfolders named AA, AB and so on.
      */
-    void createStructure(string dstPath, int depth);
+    void createStructure(const string dstPath, const int depth, int rdepth);
 
     void setDstPath(string _dstPath);
     string getDstPath() const;

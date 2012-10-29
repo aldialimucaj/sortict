@@ -1,8 +1,8 @@
 #include <iostream>
-#include <boost/filesystem.hpp>
 #include <string>
 #include <sstream>
 #include <dirent.h>
+#include <boost/filesystem.hpp>
 #include <boost/filesystem/operations.hpp>
 #include "IOSorter.h"
 
@@ -27,12 +27,16 @@ string IOSorter::getPath() {
     return _path;
 }
 
-void IOSorter::secureCreateFolder(const string dirPath) {
+void IOSorter::safeCreateFolder(const string dirPath) {
     path _path(dirPath);
-
-    if (!is_directory(_path)) {
+    
+    if (!exists(_path)) {
         create_directory(_path);
     }
+}
+
+vector<path> IOSorter::listFolder(path _path) {
+    
 }
 
 bool IOSorter::isPathCorrect(const string dir_path) {

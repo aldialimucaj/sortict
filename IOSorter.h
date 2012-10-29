@@ -9,8 +9,13 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/operations.hpp>
+
+#define MAX_DIR_RECURSION 3  // the maxiamal depth of the subdir structure
 
 using namespace std;
+using namespace boost::filesystem;
 
 class IOSorter {
 public:
@@ -19,7 +24,8 @@ public:
     
     string getPath();
     bool isPathCorrect(const string path);
-    void secureCreateFolder(const string path);
+    void safeCreateFolder(const string path);
+    vector<path> listFolder(path _path);
 
 };
 
