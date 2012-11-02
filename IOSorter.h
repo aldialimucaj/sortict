@@ -25,7 +25,10 @@ public:
     string getPath();
     bool isPathCorrect(const string path);
     void safeCreateFolder(const string path);
-    vector<path> listFolder(path _path);
+    vector<path> listFolder(path path);
+    bool isMultimedia(const path path);
+    
+    vector<string> multimediaType;
 
 };
 

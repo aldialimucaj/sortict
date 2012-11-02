@@ -22,7 +22,8 @@ int main(int argc, char** argv) {
 
     string path = iosorter.getPath();
     sorter.sort(path);
-    sorter.createStructure(path, 2, 0);
+    //sorter.createStructure(path, 2, 0);
+    iosorter.listFolder(path);
 
 
     return 0;
