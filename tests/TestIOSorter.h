@@ -9,6 +9,8 @@
 #define	TESTIOSORTER_H
 
 #include <cppunit/extensions/HelperMacros.h>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/operations.hpp>
 
 class TestIOSorter : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(TestIOSorter);
@@ -16,6 +18,7 @@ class TestIOSorter : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testIOSorter);
     CPPUNIT_TEST(testGetPath);
     CPPUNIT_TEST(testIsPathCorrect);
+    CPPUNIT_TEST(testIsMultimedia);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -29,6 +32,7 @@ private:
     void testIOSorter();
     void testGetPath();
     void testIsPathCorrect();
+    void testIsMultimedia();
 
 };
 

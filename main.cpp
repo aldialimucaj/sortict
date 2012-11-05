@@ -7,6 +7,7 @@
 
 #include <cstdlib>
 #include <string>
+#include <boost/filesystem.hpp>
 #include "Sortit.h"
 #include "IOSorter.h"
 
@@ -20,10 +21,13 @@ int main(int argc, char** argv) {
     Sortit sorter;
     IOSorter iosorter;
 
-    string path = iosorter.getPath();
-    sorter.sort(path);
-    //sorter.createStructure(path, 2, 0);
-    iosorter.listFolder(path);
+    string _dstPath = iosorter.getPath("Destination Path");
+    string _srcPath = iosorter.getPath("Destination Path");
+    
+    sorter.sort(_dstPath);
+    sorter.createStructure(_dstPath, 2);
+    vector<path> vec = iosorter.listFolder(_dstPath);
+    sorter.startSorting(vec);
 
 
     return 0;

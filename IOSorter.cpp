@@ -4,25 +4,28 @@
 #include <dirent.h>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/operations.hpp>
+#include <boost/foreach.hpp>
+#include <boost/algorithm/string.hpp>
 #include <map>
 #include "IOSorter.h"
 
 
 using namespace std;
 using namespace boost::filesystem;
+using namespace boost::algorithm;
 
-IOSorter::IOSorter(): multimediaType({".pdf"}) {
-    
+IOSorter::IOSorter() : multimediaType({".pdf", ".chm", ".epub", "mobi"}) {
+
 }
 
 IOSorter::~IOSorter() {
 
 }
 
-string IOSorter::getPath() {
+string IOSorter::getPath(string msg) {
     string _path;
 
-    cout << "Path to sort: " << endl;
+    cout << msg << ": " << endl;
     getline(cin, _path);
 
     return _path;
@@ -49,23 +52,21 @@ vector<path> IOSorter::listFolder(path _path) {
     for (di; di != end_iter; ++di) {
         path _tmpPath((*di).path());
 
-        if (is_regular_file(_tmpPath) && isMultimedia(_tmpPath)) {
+        if (is_regular_file(_tmpPath) && isMultimedia(_tmpPath.filename().string())) {
             vec.push_back(_tmpPath);
-            //TODO: take this out
-            //cout << (*di).path() << endl;
         }
 
     }
-
     return vec;
-
 }
 
-bool IOSorter::isMultimedia(const path _path) {
-    string _strPath = _path.string();
-    
-    for (int i = 0; i < multimediaType.size(); i++) {
-        if (_strPath.find_last_of(IOSorter::multimediaType.at(i)) > 0) {
+bool IOSorter::isMultimedia(const string _fileName) {
+    string _strPath = _fileName;
+    string _mType = "";
+
+    BOOST_FOREACH(_mType, multimediaType) {
+        to_lower(_strPath);
+        if (_strPath.rfind(_mType) != string::npos) {
             return true;
         }
 

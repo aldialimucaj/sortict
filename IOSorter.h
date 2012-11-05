@@ -22,11 +22,11 @@ public:
     IOSorter();
     ~IOSorter();
     
-    string getPath();
+    string getPath(string msg);
     bool isPathCorrect(const string path);
     void safeCreateFolder(const string path);
     vector<path> listFolder(path path);
-    bool isMultimedia(const path path);
+    bool isMultimedia(const string _fileName);
     
     vector<string> multimediaType;
 
