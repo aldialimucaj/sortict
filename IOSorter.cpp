@@ -6,6 +6,7 @@
 #include <boost/filesystem/operations.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/assign.hpp>
 #include <map>
 #include "IOSorter.h"
 
@@ -13,9 +14,11 @@
 using namespace std;
 using namespace boost::filesystem;
 using namespace boost::algorithm;
+using namespace boost::assign;
 
-IOSorter::IOSorter() : multimediaType({".pdf", ".chm", ".epub", "mobi"}) {
+IOSorter::IOSorter() {
 
+    this->multimediaType += ".pdf", ".chm", ".epub", "mobi";
 }
 
 IOSorter::~IOSorter() {

@@ -6,7 +6,7 @@
  */
 
 #include "TestIOSorter.h"
-#include "IOSorter.h"
+#include "../IOSorter.h"
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestIOSorter);

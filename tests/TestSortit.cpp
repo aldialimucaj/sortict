@@ -6,7 +6,7 @@
  */
 
 #include "TestSortit.h"
-#include "Sortit.h"
+#include "../Sortit.h"
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestSortit);

@@ -61,6 +61,7 @@
           <linkerLibItems>
             <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
             <linkerLibLibItem>boost_system</linkerLibLibItem>
+            <linkerLibLibItem>boost_program_options</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

@@ -4,10 +4,12 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/foreach.hpp>
 #include <boost/numeric/conversion/converter.hpp>
+#include <boost/assign.hpp>
 #include "Sortit.h"
 #include "IOSorter.h"
 
 using namespace std;
+using namespace boost::assign;
 
 Sortit::Sortit() : _srcPath(), _dstPath(), _treeDepth(0) {
     Sortit(_srcPath, _dstPath, _treeDepth);
@@ -19,8 +21,8 @@ Sortit::Sortit(string srcPath, string dstPath)
 }
 
 Sortit::Sortit(string srcPath, string dstPath, int _rDepth)
-: iosorter(),
-alphabet({"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "REST", "_ZIP"}) {
+: iosorter() {
+    alphabet += "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "REST", "_ZIP";
     if (this->_dstPath.size() == 0) {
         this->_dstPath = iosorter.getPath("Destination Path");
     }
@@ -66,6 +68,7 @@ void Sortit::startSorting(vector<path> vec) {
 }
 
 //TODO: find a fucking map
+
 file_set_t Sortit::buildFileMap(vector<path> vec) {
     file_set_t fileSet;
 
@@ -84,8 +87,8 @@ file_set_t Sortit::buildFileMap(vector<path> vec) {
                 correctFolderName.append("/");
             }
             correctFolderName.append(fName);
-  
-            fileSet.insert(pair<string,string>(_filePath.string(), correctFolderName));
+
+            fileSet.insert(pair<string, string > (_filePath.string(), correctFolderName));
         }
     }
     return fileSet;
@@ -106,6 +109,8 @@ void Sortit::createStructure(const string dstPath, const int treeDepth, int rdep
         _depth = treeDepth;
     }
 
+    // Goes through the alphabet list and some special predefined folders
+    // TODO: this list is static and has to be changed
     for (int i = 0; i < Sortit::alphabet.size(); i++) {
         string _recursion_dir_name = "";
         if (rdepth > 0) {

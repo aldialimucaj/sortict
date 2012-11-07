@@ -8,22 +8,58 @@
 #include <cstdlib>
 #include <string>
 #include <boost/filesystem.hpp>
+#include <boost/program_options.hpp>
 #include "Sortit.h"
 #include "IOSorter.h"
 
 using namespace std;
+namespace po = boost::program_options;
+
+po::options_description initOptions() {
+    po::options_description desc("Option List");
+
+    desc.add_options()
+            ("help", "Print this page")
+            ("source", po::value<string > (), "Source Folder(s) where to look for the media data")
+            ("destination", po::value<string > (), "Destination Folder where to reallocate the files")
+            ("interleave", po::value<int>(), "the amount of sub-folder to create within the sorted folder. Example --interleave=1 would generate a structure like $DEST_FOLDER/A/AA")
+            ;
+
+
+}
 
 /*
  * Main function for sortit 
  */
 int main(int argc, char** argv) {
+     po::options_description desc("Option List");
+
+    desc.add_options()
+            ("help", "Print this page")
+            ("source", po::value<string > (), "Source Folder(s) where to look for the media data")
+            ("destination", po::value<string > (), "Destination Folder where to reallocate the files")
+            ("interleave", po::value<int>(), "the amount of sub-folder to create within the sorted folder. Example --interleave=1 would generate a structure like $DEST_FOLDER/A/AA")
+            ;
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);
+
+    if (vm.count("help")) {
+        cout << desc << "\n";
+    }
+
+    if (vm.count("source")) {
+
+    }
+
 
     Sortit sorter;
     IOSorter iosorter;
 
     string _dstPath = iosorter.getPath("Destination Path");
     string _srcPath = iosorter.getPath("Destination Path");
-    
+
     sorter.sort(_dstPath);
     sorter.createStructure(_dstPath, 2);
     vector<path> vec = iosorter.listFolder(_dstPath);
@@ -32,4 +68,6 @@ int main(int argc, char** argv) {
 
     return 0;
 }
+
+
 
