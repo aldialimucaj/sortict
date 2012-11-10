@@ -11,21 +11,17 @@
 using namespace std;
 using namespace boost::assign;
 
-SortIt::SortIt()
-: m_srcPath(), m_dstPath(), m_treeDepth(0) {
-    SortIt(m_srcPath, m_dstPath, m_treeDepth);
+SortIt::SortIt() : SortIt("", "", 0) {
 }
 
-SortIt::SortIt(string srcPath, string dstPath)
-: m_srcPath(srcPath), m_dstPath(dstPath) {
-    SortIt(m_srcPath, m_dstPath, 0);
+SortIt::SortIt(string srcPath, string dstPath) : SortIt(srcPath, dstPath, 0) {
 }
 
 SortIt::SortIt(string srcPath, string dstPath, int _rDepth)
-: m_iosorter(), m_alphabet({"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "REST", "_ZIP"}) {
-    
-    cout << m_alphabet.size() << endl;
-
+: m_srcPath(srcPath),
+m_dstPath(dstPath),
+m_treeDepth(_rDepth),
+m_alphabet({"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "REST", "_ZIP"}) {
 }
 
 void SortIt::sort() {
@@ -98,8 +94,6 @@ void SortIt::createStructure(const string dstPath, const int treeDepth, int rdep
     if (treeDepth < MAX_DIR_RECURSION && treeDepth > 0) {
         _depth = treeDepth;
     }
-
-    cout << "m_alphabet:" << this->m_alphabet.size() << endl;
 
     // Goes through the alphabet list and some special predefined folders
     // TODO: this list is static and has to be changed
