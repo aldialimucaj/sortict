@@ -24,7 +24,7 @@ void TestSortit::tearDown() {
 }
 
 void TestSortit::testSortit() {
-    Sortit sortit();
+    SortIt sortit();
     if (true /*check result*/) {
         CPPUNIT_ASSERT(false);
     }
@@ -32,7 +32,7 @@ void TestSortit::testSortit() {
 
 void TestSortit::testSort() {
     string path;
-    Sortit sortit;
+    SortIt sortit;
     sortit.sort(path);
     if (true /*check result*/) {
         CPPUNIT_ASSERT(false);
@@ -40,7 +40,7 @@ void TestSortit::testSort() {
 }
 
 void TestSortit::testSort2() {
-    Sortit sortit;
+    SortIt sortit;
     sortit.sort();
     if (true /*check result*/) {
         CPPUNIT_ASSERT(false);

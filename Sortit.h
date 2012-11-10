@@ -8,8 +8,11 @@
  */
 
 #include <string>
+#include <vector>
 #include <boost/array.hpp>
 #include <boost/assign.hpp>
+#include <boost/smart_ptr.hpp>
+
 #include "IOSorter.h"
 
 using namespace std;
@@ -20,20 +23,29 @@ typedef multimap<string, string> file_set_t;
 // This class represents a sorter object which is able to sort
 // files based on different criteria.
 
-class Sortit {
+class SortIt {
+
+
+
 private:
-    IOSorter iosorter;
-    string _srcPath;
-    string _dstPath;
-    vector<string> alphabet;
-    int _treeDepth;
+    IOSorter m_iosorter;
+    string m_srcPath;
+    string m_dstPath;
+    std::vector<string> m_alphabet;// = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "REST", "_ZIP"};
+    
+    int m_treeDepth;
     
     
 public:
-    Sortit();
-    Sortit(string srcPath, string dstPath);
-    Sortit(string srcPath, string dstPath, int _rDepth);
-    ~Sortit();
+    
+    SortIt();
+    SortIt(string srcPath, string dstPath);
+    SortIt(string srcPath, string dstPath, int _rDepth);
+    ~SortIt();
+    
+    // ----------- Variables ---------------------------------------------------
+    
+    
     // entry point for the sorting process.
     void sort();
     void sort(string srcPath);

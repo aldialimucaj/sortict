@@ -32,7 +32,13 @@ po::options_description initOptions() {
  * Main function for sortit 
  */
 int main(int argc, char** argv) {
-     po::options_description desc("Option List");
+    SortIt sorter;
+    IOSorter iosorter;
+    string _dstPath;
+    string _srcPath;
+
+
+    po::options_description desc("Option List");
 
     desc.add_options()
             ("help", "Print this page")
@@ -50,24 +56,27 @@ int main(int argc, char** argv) {
     }
 
     if (vm.count("source")) {
-
+        _srcPath = vm["source"].as<string > ();
+        sorter.setSrcPath(_srcPath);
     }
 
+    if (vm.count("destination")) {
+        _dstPath = vm["destination"].as<string > ();
+        sorter.setDstPath(_dstPath);
+    }
 
-    Sortit sorter;
-    IOSorter iosorter;
-
-    string _dstPath = iosorter.getPath("Destination Path");
-    string _srcPath = iosorter.getPath("Destination Path");
-
-    sorter.sort(_dstPath);
     sorter.createStructure(_dstPath, 2);
-    vector<path> vec = iosorter.listFolder(_dstPath);
-    sorter.startSorting(vec);
-
-
+    sorter.sort();
+    
+    
     return 0;
 }
 
 
 
+//    else {
+//        _srcPath = iosorter.getPath("Source Path");
+//    }
+//    else {
+//        _dstPath = iosorter.getPath("Destination Path");
+//    }

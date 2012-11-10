@@ -11,56 +11,46 @@
 using namespace std;
 using namespace boost::assign;
 
-Sortit::Sortit() : _srcPath(), _dstPath(), _treeDepth(0) {
-    Sortit(_srcPath, _dstPath, _treeDepth);
+SortIt::SortIt()
+: m_srcPath(), m_dstPath(), m_treeDepth(0) {
+    SortIt(m_srcPath, m_dstPath, m_treeDepth);
 }
 
-Sortit::Sortit(string srcPath, string dstPath)
-: _srcPath(srcPath), _dstPath(dstPath) {
-    Sortit(_srcPath, _dstPath, 0);
+SortIt::SortIt(string srcPath, string dstPath)
+: m_srcPath(srcPath), m_dstPath(dstPath) {
+    SortIt(m_srcPath, m_dstPath, 0);
 }
 
-Sortit::Sortit(string srcPath, string dstPath, int _rDepth)
-: iosorter() {
-    alphabet += "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "REST", "_ZIP";
-    if (this->_dstPath.size() == 0) {
-        this->_dstPath = iosorter.getPath("Destination Path");
-    }
-    if (this->_srcPath.size() == 0) {
-        this->_srcPath = iosorter.getPath("Source Path");
-    }
-    if (this->_treeDepth == -1) {
-        cout << "Structure depth [0-2]" << endl;
-        cin >> this->_treeDepth;
-    }
-
+SortIt::SortIt(string srcPath, string dstPath, int _rDepth)
+: m_iosorter(), m_alphabet({"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "REST", "_ZIP"}) {
+    
+    cout << m_alphabet.size() << endl;
 
 }
 
-Sortit::~Sortit() {
-}
-
-void Sortit::sort() {
-    if (!iosorter.isPathCorrect(this->_srcPath) || !iosorter.isPathCorrect(this->_dstPath)) {
+void SortIt::sort() {
+    if (!m_iosorter.isPathCorrect(this->m_srcPath) || !m_iosorter.isPathCorrect(this->m_dstPath)) {
         return;
     }
-    this->sort(this->_srcPath, this->_dstPath);
+    this->sort(this->m_srcPath, this->m_dstPath);
 }
 
-void Sortit::sort(const string srcPath) {
-    if (!iosorter.isPathCorrect(srcPath)) {
+void SortIt::sort(const string srcPath) {
+    if (!m_iosorter.isPathCorrect(srcPath)) {
         return;
     }
     this->sort(srcPath, srcPath);
 }
 
-void Sortit::sort(const string srcPath, const string dstPath) {
-    if (!iosorter.isPathCorrect(srcPath) || !iosorter.isPathCorrect(dstPath)) {
+void SortIt::sort(const string srcPath, const string dstPath) {
+    if (!m_iosorter.isPathCorrect(srcPath) || !m_iosorter.isPathCorrect(dstPath)) {
         return;
     }
+    vector<path> vec = m_iosorter.listFolder(m_dstPath);
+    this->startSorting(vec);
 }
 
-void Sortit::startSorting(vector<path> vec) {
+void SortIt::startSorting(vector<path> vec) {
 
     BOOST_FOREACH(path _path, vec) {
         cout << _path << endl;
@@ -69,16 +59,16 @@ void Sortit::startSorting(vector<path> vec) {
 
 //TODO: find a fucking map
 
-file_set_t Sortit::buildFileMap(vector<path> vec) {
+file_set_t SortIt::buildFileMap(vector<path> vec) {
     file_set_t fileSet;
 
     BOOST_FOREACH(path _filePath, vec) {
-        int _tmpDepth = this->_treeDepth + 1;
+        int _tmpDepth = this->m_treeDepth + 1;
         string fName = _filePath.filename().string();
         if (fName.size() >= _tmpDepth) {
             string _folderName = fName.substr(0, _tmpDepth);
             string correctFolderName;
-            correctFolderName.assign(this->_dstPath);
+            correctFolderName.assign(this->m_dstPath);
             int i = 1;
             correctFolderName.append("/");
 
@@ -94,12 +84,12 @@ file_set_t Sortit::buildFileMap(vector<path> vec) {
     return fileSet;
 }
 
-void Sortit::createStructure(const string dstPath, const int treeDepth) {
+void SortIt::createStructure(const string dstPath, const int treeDepth) {
     this->createStructure(dstPath, treeDepth, 0);
 }
 
-void Sortit::createStructure(const string dstPath, const int treeDepth, int rdepth) {
-    if (!iosorter.isPathCorrect(dstPath)) {
+void SortIt::createStructure(const string dstPath, const int treeDepth, int rdepth) {
+    if (!m_iosorter.isPathCorrect(dstPath)) {
         return;
     }
 
@@ -109,46 +99,48 @@ void Sortit::createStructure(const string dstPath, const int treeDepth, int rdep
         _depth = treeDepth;
     }
 
+    cout << "m_alphabet:" << this->m_alphabet.size() << endl;
+
     // Goes through the alphabet list and some special predefined folders
     // TODO: this list is static and has to be changed
-    for (int i = 0; i < Sortit::alphabet.size(); i++) {
+
+    BOOST_FOREACH(string alpha, m_alphabet) {
         string _recursion_dir_name = "";
         if (rdepth > 0) {
             path _dstPath(dstPath);
             _recursion_dir_name = _dstPath.filename().string();
         }
 
-        _recursion_dir_name.append(Sortit::alphabet.at(i));
+        _recursion_dir_name.append(alpha);
 
         // building the path and crating the directory, only if it doesn't exist
         string _tmp_path = dstPath + "/" + _recursion_dir_name;
-        iosorter.safeCreateFolder(_tmp_path);
+        m_iosorter.safeCreateFolder(_tmp_path);
 
         // starting recursion to create subdirectories
         if (treeDepth > 0) {
-            Sortit::createStructure(_tmp_path, --_depth, rdepth + 1);
+            SortIt::createStructure(_tmp_path, --_depth, rdepth + 1);
         }
     }
 
 
 }
 
-void Sortit::setDstPath(string _dstPath) {
-    this->_dstPath = _dstPath;
+void SortIt::setDstPath(string _dstPath) {
+    this->m_dstPath = _dstPath;
 }
 
-string Sortit::getDstPath() const {
-    return _dstPath;
+string SortIt::getDstPath() const {
+    return m_dstPath;
 }
 
-void Sortit::setSrcPath(string _srcPath) {
-    this->_srcPath = _srcPath;
+void SortIt::setSrcPath(string _srcPath) {
+    this->m_srcPath = _srcPath;
 }
 
-string Sortit::getSrcPath() const {
-    return _srcPath;
+string SortIt::getSrcPath() const {
+    return m_srcPath;
 }
 
-
-
-
+SortIt::~SortIt() {
+}

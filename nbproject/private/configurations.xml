@@ -25,13 +25,17 @@
       <runprofile version="9">
         <runcommandpicklist>
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --help</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}"</runcommand>
+        <runcommand>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>
         <remove-instrumentation>0</remove-instrumentation>
         <environment>
+          <variable name="--source" value="/home/a/tmpbooks"/>
+          <variable name="--destination" value="/home/a/tmpbooks"/>
         </environment>
       </runprofile>
     </conf>
@@ -65,6 +69,8 @@
         <terminal-type>0</terminal-type>
         <remove-instrumentation>0</remove-instrumentation>
         <environment>
+          <variable name="--source" value="/home/a/tmpbooks"/>
+          <variable name="--destinaion" value="/home/a/tmpbooks"/>
         </environment>
       </runprofile>
     </conf>

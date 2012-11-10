@@ -17,18 +17,14 @@ using namespace boost::algorithm;
 using namespace boost::assign;
 
 IOSorter::IOSorter() {
-
-    this->multimediaType += ".pdf", ".chm", ".epub", "mobi";
-}
-
-IOSorter::~IOSorter() {
+m_multimediaType += ".pdf", ".chm", ".epub", ".mobi";
 
 }
 
 string IOSorter::getPath(string msg) {
     string _path;
 
-    cout << msg << ": " << endl;
+    cout  << msg << ": " << endl;
     getline(cin, _path);
 
     return _path;
@@ -67,7 +63,7 @@ bool IOSorter::isMultimedia(const string _fileName) {
     string _strPath = _fileName;
     string _mType = "";
 
-    BOOST_FOREACH(_mType, multimediaType) {
+    BOOST_FOREACH(_mType, m_multimediaType) {
         to_lower(_strPath);
         if (_strPath.rfind(_mType) != string::npos) {
             return true;
@@ -81,5 +77,10 @@ bool IOSorter::isPathCorrect(const string dir_path) {
     path _path(dir_path);
 
     return is_directory(_path);
+
+}
+
+
+IOSorter::~IOSorter() {
 
 }
