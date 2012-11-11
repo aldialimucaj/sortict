@@ -51,8 +51,8 @@ TESTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-std=gnu++11
+CXXFLAGS=-std=gnu++11
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -61,7 +61,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=-lboost_filesystem -lboost_program_options -lboost_system
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}

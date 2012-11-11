@@ -44,7 +44,7 @@ void SortIt::sort(const string srcPath, const string dstPath) {
     if (!m_iosorter.isPathCorrect(srcPath) || !m_iosorter.isPathCorrect(dstPath)) {
         return;
     }
-    vector<path> vec = m_iosorter.listFolder(m_dstPath);
+    vector<path> vec = m_iosorter.listFolder(m_srcPath);
     file_set_t filesMap = SortIt::buildFileMap(vec);
     SortIt::startSorting(filesMap);
 }
@@ -75,6 +75,12 @@ file_set_t SortIt::buildFileMap(vector<path> vec) {
     file_set_t fileSet;
 
     BOOST_FOREACH(path _filePath, vec) {
+        if (SortIt::isRest()) {
+            if (SortIt::isRestFile(_filePath)) {
+                continue;
+            }
+        }
+
         // _tmpDepth is the folder name which is going to be added to the path
         int _tmpDepth = this->m_treeDepth + 1;
 
@@ -105,6 +111,16 @@ file_set_t SortIt::buildFileMap(vector<path> vec) {
     return fileSet;
 }
 
+bool SortIt::isRestFile(path filePath) {
+    string fileStr = filePath.filename().string();
+    string result = SortIt::getStructuredFolder(fileStr.substr(0, 1), 1);
+
+    if (result.compare("") == 0) {
+        return true;
+    }
+    return false;
+}
+
 string SortIt::getStructuredFolder(string folderName, int times) {
     to_upper(folderName);
 
@@ -118,6 +134,11 @@ string SortIt::getStructuredFolder(string folderName, int times) {
     }
     if (times > 1) {
         return SortIt::getStructuredFolder(folderName.substr(0, times), times - 1) + SORTIT_REST_FOLDER;
+    }
+
+    // if NO-REST flag is set then return an empty string
+    if (this->m_noRest) {
+        return "";
     }
     return SORTIT_REST_FOLDER;
 
@@ -163,20 +184,19 @@ void SortIt::createStructure(const string dstPath, const int treeDepth, int rdep
 
 }
 
-void SortIt::cleanStructure(const string dstPath){
+void SortIt::cleanStructure(const string dstPath) {
     path _path(dstPath);
-    
+
     recursive_directory_iterator di(_path);
     recursive_directory_iterator end_iter;
 
     for (di; di != end_iter; ++di) {
         path _tmpPath((*di).path());
-        if (is_directory(_tmpPath)){
+        if (is_directory(_tmpPath)) {
             SortIt::cleanStructure(_tmpPath.string());
         }
 
         if (is_directory(_tmpPath) && boost::filesystem::is_empty(_tmpPath)) {
-            cout << "DD:" << _tmpPath << endl;
             remove(_tmpPath);
         }
 
@@ -205,6 +225,14 @@ void SortIt::setTreeDepth(int treeDepth) {
 
 int SortIt::getTreeDepth() const {
     return m_treeDepth;
+}
+
+void SortIt::setRest(bool rest) {
+    this->m_noRest = rest;
+}
+
+bool SortIt::isRest() const {
+    return m_noRest;
 }
 
 SortIt::~SortIt() {

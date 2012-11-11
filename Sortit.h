@@ -36,6 +36,7 @@ private:
     string m_srcPath;
     string m_dstPath;
     int m_treeDepth;
+    bool m_noRest;
     std::vector<string> m_alphabet;// = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "REST", "_ZIP"};
     
     string getStructuredFolder(string folderName, int times);
@@ -85,6 +86,9 @@ public:
     void cleanStructure(const string dstPath);
     
     
+    bool isRestFile(path filePath);
+    
+    
     // --------- File Manipulation ---------------------------------------------
     /**
      * Sorts the given list of items
@@ -102,4 +106,6 @@ public:
     string getSrcPath() const;
     void setTreeDepth(int treeDepth);
     int getTreeDepth() const;
+    void setRest(bool rest);
+    bool isRest() const;
 };
