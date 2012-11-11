@@ -38,7 +38,7 @@ private:
     int m_treeDepth;
     std::vector<string> m_alphabet;// = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "REST", "_ZIP"};
     
-    string getSufix(string folderName, int times);
+    string getStructuredFolder(string folderName, int times);
     
     
 public:
@@ -77,6 +77,13 @@ public:
      */
     void createStructure(const string dstPath, const int depth);
     
+    /**
+     *  Deletes every empty folder of the structure.
+     * 
+     * @param dstPath path to the folder
+     */
+    void cleanStructure(const string dstPath);
+    
     
     // --------- File Manipulation ---------------------------------------------
     /**
@@ -93,4 +100,6 @@ public:
     string getDstPath() const;
     void setSrcPath(string _srcPath);
     string getSrcPath() const;
+    void setTreeDepth(int treeDepth);
+    int getTreeDepth() const;
 };

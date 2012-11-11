@@ -36,6 +36,7 @@ int main(int argc, char** argv) {
     IOSorter iosorter;
     string _dstPath;
     string _srcPath;
+    int _interleave;
 
 
     po::options_description desc("Option List");
@@ -64,9 +65,15 @@ int main(int argc, char** argv) {
         _dstPath = vm["destination"].as<string > ();
         sorter.setDstPath(_dstPath);
     }
+    
+    if (vm.count("interleave")) {
+        _interleave = vm["interleave"].as<int > ();
+        sorter.setTreeDepth(_interleave);
+    }
 
-    sorter.createStructure(_dstPath, 2);
+    sorter.createStructure(_dstPath, _interleave);
     sorter.sort();
+    sorter.cleanStructure(_dstPath);
     
     
     return 0;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <exception>
 #include <boost/filesystem/path.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
@@ -22,7 +23,7 @@ SortIt::SortIt(string srcPath, string dstPath, int _rDepth)
 : m_srcPath(srcPath),
 m_dstPath(dstPath),
 m_treeDepth(_rDepth),
-m_alphabet({"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "REST", "_ZIP"}) {
+m_alphabet({SORTIT_REST_FOLDER, "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "_ZIP"}) {
 }
 
 void SortIt::sort() {
@@ -51,7 +52,22 @@ void SortIt::sort(const string srcPath, const string dstPath) {
 void SortIt::startSorting(file_set_t filesMap) {
 
     BOOST_FOREACH(file_set_t::value_type &m, filesMap) {
-        cout << m.first << " -> " << m.second << endl;
+        path _fileToMove(m.first);
+        path _destination(m.second);
+        int i = exists(_destination);
+        int j = exists(_fileToMove);
+        try {
+            if (exists(_destination) == false && exists(_fileToMove) == true) {
+                rename(_fileToMove, _destination);
+                cout << "MV: " << _fileToMove.string() << " >> " << _destination << endl;
+            } else {
+                cout << "ERR (Exists or invalid Path): " << _fileToMove.string() << " -> " << _destination.string() << endl;
+            }
+        } catch (filesystem_error &e) {
+            cout << "Could not move File: " << _fileToMove.string() << " -> "
+                    << _destination.string() << " MSG: " << e.what() << endl;
+        }
+
     }
 }
 
@@ -78,7 +94,7 @@ file_set_t SortIt::buildFileMap(vector<path> vec) {
             while (i < _tmpDepth) {
                 string pathSufix = fName.substr(0, ++i);
 
-                correctFolderName.append(SortIt::getSufix(pathSufix, i));
+                correctFolderName.append(SortIt::getStructuredFolder(pathSufix, i));
                 correctFolderName.append("/");
             }
             correctFolderName.append(fName);
@@ -89,15 +105,20 @@ file_set_t SortIt::buildFileMap(vector<path> vec) {
     return fileSet;
 }
 
-string SortIt::getSufix(string folderName, int times) {
+string SortIt::getStructuredFolder(string folderName, int times) {
+    to_upper(folderName);
 
     BOOST_FOREACH(string alpha, m_alphabet) {
-        if (folderName.compare(times-1, 1, alpha) == 0) {
-            to_upper(folderName);
-            return folderName;
+        if (folderName.compare(times - 1, 1, alpha) == 0) {
+            if (times > 1) {
+                return SortIt::getStructuredFolder(folderName.substr(0, times), times - 1) + alpha;
+            }
+            return alpha;
         }
     }
-
+    if (times > 1) {
+        return SortIt::getStructuredFolder(folderName.substr(0, times), times - 1) + SORTIT_REST_FOLDER;
+    }
     return SORTIT_REST_FOLDER;
 
 }
@@ -111,16 +132,16 @@ void SortIt::createStructure(const string dstPath, const int treeDepth, int rdep
         return;
     }
 
-    int _depth = 0;
-
-    if (treeDepth < MAX_DIR_RECURSION && treeDepth > 0) {
-        _depth = treeDepth;
-    }
-
     // Goes through the alphabet list and some special predefined folders
     // TODO: this list is static and has to be changed
 
     BOOST_FOREACH(string alpha, m_alphabet) {
+        int _depth = 0;
+
+        if (treeDepth < MAX_DIR_RECURSION && treeDepth > 0) {
+            _depth = treeDepth;
+        }
+
         string _recursion_dir_name = "";
         if (rdepth > 0) {
             path _dstPath(dstPath);
@@ -142,6 +163,26 @@ void SortIt::createStructure(const string dstPath, const int treeDepth, int rdep
 
 }
 
+void SortIt::cleanStructure(const string dstPath){
+    path _path(dstPath);
+    
+    recursive_directory_iterator di(_path);
+    recursive_directory_iterator end_iter;
+
+    for (di; di != end_iter; ++di) {
+        path _tmpPath((*di).path());
+        if (is_directory(_tmpPath)){
+            SortIt::cleanStructure(_tmpPath.string());
+        }
+
+        if (is_directory(_tmpPath) && boost::filesystem::is_empty(_tmpPath)) {
+            cout << "DD:" << _tmpPath << endl;
+            remove(_tmpPath);
+        }
+
+    }
+}
+
 void SortIt::setDstPath(string _dstPath) {
     this->m_dstPath = _dstPath;
 }
@@ -156,6 +197,14 @@ void SortIt::setSrcPath(string _srcPath) {
 
 string SortIt::getSrcPath() const {
     return m_srcPath;
+}
+
+void SortIt::setTreeDepth(int treeDepth) {
+    this->m_treeDepth = treeDepth;
+}
+
+int SortIt::getTreeDepth() const {
+    return m_treeDepth;
 }
 
 SortIt::~SortIt() {

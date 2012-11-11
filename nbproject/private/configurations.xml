@@ -27,8 +27,11 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --help</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks --interleave=3</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks --interleave=2</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks --interleave=1</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks</runcommand>
+        <runcommand>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks --interleave=1</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>

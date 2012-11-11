@@ -21,17 +21,20 @@ class IOSorter {
 public:
     IOSorter();
     ~IOSorter();
-    
+
     // ----------- Variables ---------------------------------------------------
     vector<string> m_multimediaType;
-    
+
+    // ----------- Functions ---------------------------------------------------
+    void safeCreateFolder(const string path);
+    void safeDeleteFolder(const string path);
     string getPath(string msg);
     bool isPathCorrect(const string path);
-    void safeCreateFolder(const string path);
-    vector<path> listFolder(path path);
     bool isMultimedia(const string _fileName);
-    
-    
+    vector<path> listFolder(path path);
+
+
+
 
 };
 
