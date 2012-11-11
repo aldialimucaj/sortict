@@ -3,6 +3,7 @@
 #include <sstream>
 #include <boost/filesystem/path.hpp>
 #include <boost/foreach.hpp>
+#include <boost/algorithm/string.hpp>
 #include <boost/numeric/conversion/converter.hpp>
 #include <boost/assign.hpp>
 #include "Sortit.h"
@@ -43,33 +44,41 @@ void SortIt::sort(const string srcPath, const string dstPath) {
         return;
     }
     vector<path> vec = m_iosorter.listFolder(m_dstPath);
-    this->startSorting(vec);
+    file_set_t filesMap = SortIt::buildFileMap(vec);
+    SortIt::startSorting(filesMap);
 }
 
-void SortIt::startSorting(vector<path> vec) {
+void SortIt::startSorting(file_set_t filesMap) {
 
-    BOOST_FOREACH(path _path, vec) {
-        cout << _path << endl;
+    BOOST_FOREACH(file_set_t::value_type &m, filesMap) {
+        cout << m.first << " -> " << m.second << endl;
     }
 }
-
-//TODO: find a fucking map
 
 file_set_t SortIt::buildFileMap(vector<path> vec) {
     file_set_t fileSet;
 
     BOOST_FOREACH(path _filePath, vec) {
+        // _tmpDepth is the folder name which is going to be added to the path
         int _tmpDepth = this->m_treeDepth + 1;
+
         string fName = _filePath.filename().string();
+
+        // the filename has to be longer than the depth otherwise one cannot crate a folder.
+        // TODO: otherwise put it on the parent folder
         if (fName.size() >= _tmpDepth) {
             string _folderName = fName.substr(0, _tmpDepth);
+
             string correctFolderName;
             correctFolderName.assign(this->m_dstPath);
-            int i = 1;
+
+            int i = 0;
             correctFolderName.append("/");
 
             while (i < _tmpDepth) {
-                correctFolderName.append(fName.substr(0, i++));
+                string pathSufix = fName.substr(0, ++i);
+
+                correctFolderName.append(SortIt::getSufix(pathSufix, i));
                 correctFolderName.append("/");
             }
             correctFolderName.append(fName);
@@ -78,6 +87,19 @@ file_set_t SortIt::buildFileMap(vector<path> vec) {
         }
     }
     return fileSet;
+}
+
+string SortIt::getSufix(string folderName, int times) {
+
+    BOOST_FOREACH(string alpha, m_alphabet) {
+        if (folderName.compare(times-1, 1, alpha) == 0) {
+            to_upper(folderName);
+            return folderName;
+        }
+    }
+
+    return SORTIT_REST_FOLDER;
+
 }
 
 void SortIt::createStructure(const string dstPath, const int treeDepth) {

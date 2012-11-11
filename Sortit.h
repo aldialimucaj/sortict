@@ -15,8 +15,12 @@
 
 #include "IOSorter.h"
 
+#define SORTIT_REST_FOLDER "_REST"
+
 using namespace std;
 using namespace boost;
+
+
 
 typedef multimap<string, string> file_set_t;
 
@@ -31,9 +35,10 @@ private:
     IOSorter m_iosorter;
     string m_srcPath;
     string m_dstPath;
+    int m_treeDepth;
     std::vector<string> m_alphabet;// = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "REST", "_ZIP"};
     
-    int m_treeDepth;
+    string getSufix(string folderName, int times);
     
     
 public:
@@ -79,7 +84,7 @@ public:
      * @param vec Vector of paths containing multimedia files
      * 
      */
-    void startSorting(vector<path> vec);
+    void startSorting(file_set_t filesMap);
     
     file_set_t buildFileMap(vector<path> vec);
 
