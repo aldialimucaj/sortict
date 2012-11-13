@@ -13,10 +13,9 @@
 #include "IOSorter.h"
 
 using namespace std;
-namespace po = boost::program_options;
+using namespace boost::program_options;
 
-po::options_description initOptions() {
-}
+
 
 /*
  * Main function for sortit 
@@ -29,22 +28,23 @@ int main(int argc, char** argv) {
     int _interleave;
 
 
-    po::options_description desc("Option List");
+    options_description desc("Option List");
 
     desc.add_options()
             ("help", "Print this page")
-            ("source", po::value<string > (), "Source Folder(s) where to look for the media data")
-            ("destination", po::value<string > (), "Destination Folder where to reallocate the files")
-            ("interleave", po::value<int>(), "the amount of sub-folder to create within the sorted folder. Example --interleave=1 would generate a structure like $DEST_FOLDER/A/AA")
-            ("no-rest", "Don't move NON alphanumeric (A-Z) files")
+            ("source,s", value<string > (), "Source Folder(s) where to look for the media data")
+            ("destination,d", value<string > (), "Destination Folder where to reallocate the files")
+            ("interleave,i", value<int>(), "the amount of sub-folder to create within the sorted folder. Example --interleave=1 would generate a structure like $DEST_FOLDER/A/AA")
+            ("no-rest,n", "Don't move NON alphanumeric (A-Z) files")
             ;
 
-    po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);
+    variables_map vm;
+    store(parse_command_line(argc, argv, desc), vm);
+    notify(vm);
 
     if (vm.count("help")) {
         cout << desc << "\n";
+        return 0;
     }
 
     if (vm.count("source")) {

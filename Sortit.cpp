@@ -192,10 +192,6 @@ void SortIt::cleanStructure(const string dstPath) {
 
     for (di; di != end_iter; ++di) {
         path _tmpPath((*di).path());
-        if (is_directory(_tmpPath)) {
-            SortIt::cleanStructure(_tmpPath.string());
-        }
-
         if (is_directory(_tmpPath) && boost::filesystem::is_empty(_tmpPath)) {
             remove(_tmpPath);
         }

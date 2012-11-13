@@ -24,7 +24,6 @@
       </nativedebugger>
       <runprofile version="9">
         <runcommandpicklist>
-          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --help</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks --interleave=3</runcommandpicklistitem>
@@ -34,8 +33,9 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks --interleave=0 --no-rest</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/media/Boshlliku/Libra/Libra_Elektronik/_ZIP/Download --destination=/media/Boshlliku/Libra/Libra_Elektronik --interleave=0 --no-rest</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/media/Boshlliku/Libra/Libra_Elektronik/_ZIP/Download --destination=/media/Boshlliku/Libra/Libra_Elektronik --interleave=1 --no-rest</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/media/Boshlliku/Libra/Libra_Elektronik --destination=/media/Boshlliku/Libra/Libra_Elektronik --interleave=1 --no-rest</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" --source=/media/Boshlliku/Libra/Libra_Elektronik/_ZIP/Download --destination=/media/Boshlliku/Libra/Libra_Elektronik --interleave=1 --no-rest</runcommand>
+        <runcommand>"${OUTPUT_PATH}" --source=/media/Boshlliku/Libra/Libra_Elektronik --destination=/media/Boshlliku/Libra/Libra_Elektronik --interleave=1 --no-rest</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>

@@ -6,6 +6,8 @@
  * Aldi Alimucaj 2012
  *
  */
+#ifndef _SORTERIT_
+#define _SORTERIT_
 
 #include <string>
 #include <vector>
@@ -109,3 +111,5 @@ public:
     void setRest(bool rest);
     bool isRest() const;
 };
+
+#endif
