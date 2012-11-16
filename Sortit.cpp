@@ -13,7 +13,7 @@
 using namespace std;
 using namespace boost::assign;
 
-SortIt::SortIt() : SortIt("", "", 0) {
+SortIt::SortIt() : SortIt(EMTPY_STRING, EMTPY_STRING, 0) {
 }
 
 SortIt::SortIt(string srcPath, string dstPath) : SortIt(srcPath, dstPath, 0) {
@@ -54,10 +54,10 @@ void SortIt::startSorting(file_set_t filesMap) {
     BOOST_FOREACH(file_set_t::value_type &m, filesMap) {
         path _fileToMove(m.first);
         path _destination(m.second);
-        int i = exists(_destination);
-        int j = exists(_fileToMove);
+        
         try {
             if (exists(_destination) == false && exists(_fileToMove) == true) {
+                m_iosorter.safeCreateFolders(_destination.parent_path().string());
                 rename(_fileToMove, _destination);
                 cout << "MV: " << _fileToMove.string() << " >> " << _destination << endl;
             } else {
@@ -115,7 +115,7 @@ bool SortIt::isRestFile(path filePath) {
     string fileStr = filePath.filename().string();
     string result = SortIt::getStructuredFolder(fileStr.substr(0, 1), 1);
 
-    if (result.compare("") == 0) {
+    if (result.empty()) {
         return true;
     }
     return false;
@@ -138,7 +138,7 @@ string SortIt::getStructuredFolder(string folderName, int times) {
 
     // if NO-REST flag is set then return an empty string
     if (this->m_noRest) {
-        return "";
+        return EMTPY_STRING;
     }
     return SORTIT_REST_FOLDER;
 
@@ -163,7 +163,7 @@ void SortIt::createStructure(const string dstPath, const int treeDepth, int rdep
             _depth = treeDepth;
         }
 
-        string _recursion_dir_name = "";
+        string _recursion_dir_name = EMTPY_STRING;
         if (rdepth > 0) {
             path _dstPath(dstPath);
             _recursion_dir_name = _dstPath.filename().string();

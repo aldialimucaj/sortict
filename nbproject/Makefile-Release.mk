@@ -54,7 +54,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lboost_filesystem -lboost_program_options -lboost_system
+LDLIBSOPTIONS=-lboost_filesystem -lboost_program_options -lboost_system -lcppunit
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -67,17 +67,17 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/sortit: ${OBJECTFILES}
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -O2 -I. -I. -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 ${OBJECTDIR}/IOSorter.o: IOSorter.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/IOSorter.o IOSorter.cpp
+	$(COMPILE.cc) -O2 -I. -I. -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/IOSorter.o IOSorter.cpp
 
 ${OBJECTDIR}/Sortit.o: Sortit.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Sortit.o Sortit.cpp
+	$(COMPILE.cc) -O2 -I. -I. -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Sortit.o Sortit.cpp
 
 # Subprojects
 .build-subprojects:

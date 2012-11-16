@@ -18,6 +18,8 @@
 #include "IOSorter.h"
 
 #define SORTIT_REST_FOLDER "_REST"
+#define EMTPY_STRING ""
+
 
 using namespace std;
 using namespace boost;

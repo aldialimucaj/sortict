@@ -38,6 +38,14 @@ void IOSorter::safeCreateFolder(const string dirPath) {
     }
 }
 
+void IOSorter::safeCreateFolders(const string dirPath) {
+    path _path(dirPath);
+
+    if (!exists(_path)) {
+        create_directories(_path);
+    }
+}
+
 vector<path> IOSorter::listFolder(path _path) {
     vector<path> vec;
 

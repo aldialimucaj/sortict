@@ -27,6 +27,7 @@ public:
 
     // ----------- Functions ---------------------------------------------------
     void safeCreateFolder(const string path);
+    void safeCreateFolders(const string path);
     void safeDeleteFolder(const string path);
     string getPath(string msg);
     bool isPathCorrect(const string path);

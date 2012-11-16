@@ -73,9 +73,9 @@ int main(int argc, char** argv) {
         sorter.setRest(true);
     }
 
-    sorter.createStructure(_dstPath, _interleave);
+    //sorter.createStructure(_dstPath, _interleave);
     sorter.sort();
-    sorter.cleanStructure(_dstPath);
+    //sorter.cleanStructure(_dstPath);
 
 
     return 0;
