@@ -23,6 +23,7 @@ SortIt::SortIt(string srcPath, string dstPath, int _rDepth)
 : m_srcPath(srcPath),
 m_dstPath(dstPath),
 m_treeDepth(_rDepth),
+m_noRest(false),
 m_alphabet({SORTIT_REST_FOLDER, "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "_ZIP"}) {
 }
 
@@ -49,19 +50,51 @@ void SortIt::sort(const string srcPath, const string dstPath) {
     SortIt::startSorting(filesMap);
 }
 
+int SortIt::isCorrectFile(path file) {
+    string fileName = file.filename().string();
+
+    // EXISTS = -1
+    if (!exists(file)) {
+        return -1;
+    }
+
+    // DUPLICATE = 1
+    if (boost::starts_with(fileName, DUPLICATE_FILE_TAG)) {
+        return 1;
+    }
+
+    // FILE OK = 0
+    return 0;
+}
+
 void SortIt::startSorting(file_set_t filesMap) {
 
     BOOST_FOREACH(file_set_t::value_type &m, filesMap) {
+        // if source and destination are the same!
+        if (m.first.compare(m.second) == 0) {
+            continue;
+        }
+
         path _fileToMove(m.first);
         path _destination(m.second);
-        
+
+
+
         try {
-            if (exists(_destination) == false && exists(_fileToMove) == true) {
+            if (!exists(_destination) && isCorrectFile(_fileToMove) == 0) {
                 m_iosorter.safeCreateFolders(_destination.parent_path().string());
                 rename(_fileToMove, _destination);
                 cout << "MV: " << _fileToMove.string() << " >> " << _destination << endl;
+            } else if (exists(_fileToMove) == true) {
+                
+                if (isCorrectFile(_fileToMove) != 1) {
+                    cout << "ERR (Exists): " << endl << _fileToMove.string() << endl << _destination.string() << endl << endl;
+                    string _duplicateName = "DUP_" + _fileToMove.filename().string();
+                    path _duplicateFile(_fileToMove.parent_path().string() + "/" + _duplicateName);
+                    rename(_fileToMove, _duplicateFile);
+                }
             } else {
-                cout << "ERR (Exists or invalid Path): " << _fileToMove.string() << " -> " << _destination.string() << endl;
+                cout << "ERR (Invalid path): " << _fileToMove.string() << " -> " << _destination.string() << endl;
             }
         } catch (filesystem_error &e) {
             cout << "Could not move File: " << _fileToMove.string() << " -> "

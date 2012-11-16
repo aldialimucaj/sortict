@@ -17,14 +17,14 @@ using namespace boost::algorithm;
 using namespace boost::assign;
 
 IOSorter::IOSorter() {
-m_multimediaType += ".pdf", ".chm", ".epub", ".mobi",".djvu" ,".opf",".rtf", ".lit", ".lrf" ;
+    m_multimediaType += ".pdf", ".chm", ".epub", ".mobi", ".djvu", ".rtf", ".lit", ".lrf";
 
 }
 
 string IOSorter::getPath(string msg) {
     string _path;
 
-    cout  << msg << ": " << endl;
+    cout << msg << ": " << endl;
     getline(cin, _path);
 
     return _path;
@@ -87,7 +87,6 @@ bool IOSorter::isPathCorrect(const string dir_path) {
     return is_directory(_path);
 
 }
-
 
 IOSorter::~IOSorter() {
 

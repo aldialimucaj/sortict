@@ -8,14 +8,16 @@
 #include <cstdlib>
 #include <string>
 #include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/fstream.hpp>
 #include <boost/program_options.hpp>
 #include "Sortit.h"
 #include "IOSorter.h"
 
 using namespace std;
 using namespace boost::program_options;
-
-
+using namespace boost::filesystem;
 
 /*
  * Main function for sortit 
@@ -49,8 +51,12 @@ int main(int argc, char** argv) {
 
     if (vm.count("source")) {
         _srcPath = vm["source"].as<string > ();
+        if (_srcPath.compare(".") == 0) {
+            boost::filesystem::path full_path(boost::filesystem::current_path());
+            _srcPath = full_path.string();
+        }
         sorter.setSrcPath(_srcPath);
-    }else {
+    } else {
         cout << "The source folder is required!" << endl;
         cout << desc << endl;
         return 0;
@@ -58,9 +64,17 @@ int main(int argc, char** argv) {
 
     if (vm.count("destination")) {
         _dstPath = vm["destination"].as<string > ();
+        if (_dstPath.compare(".") == 0) {
+            boost::filesystem::path full_path(boost::filesystem::current_path());
+            _dstPath = full_path.string();
+        }
         sorter.setDstPath(_dstPath);
-    }else if(!vm.count("destination") && vm.count("source")){
+    } else if (!vm.count("destination") && vm.count("source")) {
         _srcPath = vm["source"].as<string > ();
+        if (_srcPath.compare(".") == 0) {
+            boost::filesystem::path full_path(boost::filesystem::current_path());
+            _srcPath = full_path.string();
+        }
         sorter.setDstPath(_srcPath);
     }
 
@@ -73,9 +87,9 @@ int main(int argc, char** argv) {
         sorter.setRest(true);
     }
 
-    //sorter.createStructure(_dstPath, _interleave);
+
+    /************* CALLIN THE SORTING FUNCTION *************/
     sorter.sort();
-    //sorter.cleanStructure(_dstPath);
 
 
     return 0;

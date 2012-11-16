@@ -18,6 +18,7 @@
 #include "IOSorter.h"
 
 #define SORTIT_REST_FOLDER "_REST"
+#define DUPLICATE_FILE_TAG "DUP_"
 #define EMTPY_STRING ""
 
 
@@ -102,6 +103,18 @@ public:
     void startSorting(file_set_t filesMap);
     
     file_set_t buildFileMap(vector<path> vec);
+    
+    /**
+     * Helps defining the nature of the file. Whether it is a duplicate file f.e.
+     * 
+     * -1 = file does not exist <br>
+     * 0 = file is OK <br>
+     * 1 = file is a duplicate. it starts with DUP_
+     * 
+     * @param file file to be checked. usually the source file
+     * @return 
+     */
+    int isCorrectFile(path file);
 
     //---------- Getter/Setter -------------------------------------------------
     void setDstPath(string _dstPath);
