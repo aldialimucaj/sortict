@@ -24,6 +24,8 @@ SortIt::SortIt(string srcPath, string dstPath, int _rDepth)
 m_dstPath(dstPath),
 m_treeDepth(_rDepth),
 m_noRest(false),
+m_statsFlag(false),
+m_statDuplications(0),
 m_alphabet({SORTIT_REST_FOLDER, "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "_ZIP"}) {
 }
 
@@ -48,6 +50,7 @@ void SortIt::sort(const string srcPath, const string dstPath) {
     vector<path> vec = m_iosorter.listFolder(m_srcPath);
     file_set_t filesMap = SortIt::buildFileMap(vec);
     SortIt::startSorting(filesMap);
+    m_statMultiFiles = vec.size();
 }
 
 int SortIt::isCorrectFile(path file) {
@@ -83,16 +86,27 @@ void SortIt::startSorting(file_set_t filesMap) {
         try {
             if (!exists(_destination) && isCorrectFile(_fileToMove) == 0) {
                 m_iosorter.safeCreateFolders(_destination.parent_path().string());
-                rename(_fileToMove, _destination);
+
+                // RENAMING -- only if the stats flag is not set
+                if (!isStatsFlag()) {
+                    rename(_fileToMove, _destination);
+                }
+
                 cout << "MV: " << _fileToMove.string() << " >> " << _destination << endl;
+                m_statFilesMoved++;
             } else if (exists(_fileToMove) == true) {
-                
+
                 if (isCorrectFile(_fileToMove) != 1) {
                     cout << "ERR (Exists): " << endl << _fileToMove.string() << endl << _destination.string() << endl << endl;
-                    string _duplicateName = "DUP_" + _fileToMove.filename().string();
+                    string _duplicateName = DUPLICATE_FILE_TAG + _fileToMove.filename().string();
                     path _duplicateFile(_fileToMove.parent_path().string() + "/" + _duplicateName);
-                    rename(_fileToMove, _duplicateFile);
+
+                    // RENAMING -- only if the stats flag is not set
+                    if (!isStatsFlag()) {
+                        rename(_fileToMove, _duplicateFile);
+                    }
                 }
+                m_statDuplications++;
             } else {
                 cout << "ERR (Invalid path): " << _fileToMove.string() << " -> " << _destination.string() << endl;
             }
@@ -232,6 +246,14 @@ void SortIt::cleanStructure(const string dstPath) {
     }
 }
 
+void SortIt::printStats() {
+    cout << "************************************************" << endl;
+    cout << "Overall multimedia files: " << m_statMultiFiles << endl;
+    cout << "Files reallocated: " << m_statFilesMoved << endl;
+    cout << "Duplications: " << m_statDuplications << endl;
+    cout << "************************************************" << endl;
+}
+
 void SortIt::setDstPath(string _dstPath) {
     this->m_dstPath = _dstPath;
 }
@@ -262,6 +284,38 @@ void SortIt::setRest(bool rest) {
 
 bool SortIt::isRest() const {
     return m_noRest;
+}
+
+void SortIt::setStatsFlag(bool statsFlag) {
+    this->m_statsFlag = statsFlag;
+}
+
+bool SortIt::isStatsFlag() const {
+    return m_statsFlag;
+}
+
+void SortIt::setStatDuplications(int statDuplications) {
+    this->m_statDuplications = statDuplications;
+}
+
+int SortIt::getStatDuplications() const {
+    return m_statDuplications;
+}
+
+void SortIt::setStatFilesMoved(int statFilesMoved) {
+    this->m_statFilesMoved = statFilesMoved;
+}
+
+int SortIt::getStatFilesMoved() const {
+    return m_statFilesMoved;
+}
+
+void SortIt::setStatMultiFiles(int statMultiFiles) {
+    this->m_statMultiFiles = statMultiFiles;
+}
+
+int SortIt::getStatMultiFiles() const {
+    return m_statMultiFiles;
 }
 
 SortIt::~SortIt() {

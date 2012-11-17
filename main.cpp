@@ -38,6 +38,7 @@ int main(int argc, char** argv) {
             ("destination,d", value<string > (), "Destination Folder where to reallocate the files. If no destination is set, the source folder will be set as destination")
             ("interleave,i", value<int>(), "the amount of sub-folder to create within the sorted folder. Example --interleave=1 would generate a structure like $DEST_FOLDER/A/AA")
             ("no-rest,n", "Don't move NON alphanumeric (A-Z) files")
+            ("stats", "Don't move anything. Just for statistics")
             ;
 
     variables_map vm;
@@ -86,10 +87,15 @@ int main(int argc, char** argv) {
     if (vm.count("no-rest")) {
         sorter.setRest(true);
     }
+    
+    if (vm.count("no-rest")) {
+        sorter.setStatsFlag(true);
+    }
 
 
     /************* CALLIN THE SORTING FUNCTION *************/
     sorter.sort();
+    sorter.printStats();
 
 
     return 0;

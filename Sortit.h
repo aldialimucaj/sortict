@@ -43,6 +43,11 @@ private:
     int m_treeDepth;
     bool m_noRest;
     std::vector<string> m_alphabet;// = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "REST", "_ZIP"};
+    //---- stats ----
+    int m_statMultiFiles;
+    int m_statFilesMoved;
+    int m_statDuplications;
+    bool m_statsFlag;
     
     string getStructuredFolder(string folderName, int times);
     
@@ -115,6 +120,10 @@ public:
      * @return 
      */
     int isCorrectFile(path file);
+    
+    
+    // ------------------- Utils -----------------------------------------------
+    void printStats();
 
     //---------- Getter/Setter -------------------------------------------------
     void setDstPath(string _dstPath);
@@ -125,6 +134,14 @@ public:
     int getTreeDepth() const;
     void setRest(bool rest);
     bool isRest() const;
+    void setStatsFlag(bool statsFlag);
+    bool isStatsFlag() const;
+    void setStatDuplications(int statDuplications);
+    int getStatDuplications() const;
+    void setStatFilesMoved(int statFilesMoved);
+    int getStatFilesMoved() const;
+    void setStatMultiFiles(int statMultiFiles);
+    int getStatMultiFiles() const;
 };
 
 #endif

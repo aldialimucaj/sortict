@@ -17,7 +17,7 @@ using namespace boost::algorithm;
 using namespace boost::assign;
 
 IOSorter::IOSorter() {
-    m_multimediaType += ".pdf", ".chm", ".epub", ".mobi", ".djvu", ".rtf", ".lit", ".lrf";
+    m_multimediaType += ".pdf", ".chm", ".epub", ".mobi", ".djvu", ".rtf", ".lit", ".lrf", ".prc";
 
 }
 
