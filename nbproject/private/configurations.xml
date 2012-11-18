@@ -31,11 +31,11 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/media/Boshlliku/Libra/Libra_Elektronik --destination=/media/Boshlliku/Libra/Libra_Elektronik --interleave=1 --no-rest</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s=/home/a/tmpbooks -i=1 --no-rest</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s=/home/a/tmpbooks -i 1 --no-rest</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -s /home/a/tmpbooks -i 1 --no-rest</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s . -i 1 --no-rest</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s . -i 1</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -s /home/a/tmpbooks -i 1 --no-rest</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" -s . -i 1</runcommand>
+        <runcommand>"${OUTPUT_PATH}" -s /home/a/tmpbooks -i 1 --no-rest</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>

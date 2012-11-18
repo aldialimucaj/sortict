@@ -14,6 +14,7 @@
 #include <boost/array.hpp>
 #include <boost/assign.hpp>
 #include <boost/smart_ptr.hpp>
+#include <boost/timer/timer.hpp>
 
 #include "IOSorter.h"
 
@@ -24,6 +25,7 @@
 
 using namespace std;
 using namespace boost;
+using namespace boost::timer;
 
 
 
@@ -123,7 +125,7 @@ public:
     
     
     // ------------------- Utils -----------------------------------------------
-    void printStats();
+    void printStats(cpu_timer &timer);
 
     //---------- Getter/Setter -------------------------------------------------
     void setDstPath(string _dstPath);

@@ -7,17 +7,20 @@
 
 #include <cstdlib>
 #include <string>
+#include <cmath>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/program_options.hpp>
+#include <boost/timer/timer.hpp>
 #include "Sortit.h"
 #include "IOSorter.h"
 
 using namespace std;
 using namespace boost::program_options;
 using namespace boost::filesystem;
+
 
 /*
  * Main function for sortit 
@@ -94,8 +97,10 @@ int main(int argc, char** argv) {
 
 
     /************* CALLIN THE SORTING FUNCTION *************/
+    boost::timer::cpu_timer timer;
+    timer.start();
     sorter.sort();
-    sorter.printStats();
+    sorter.printStats(timer);
 
 
     return 0;

@@ -6,6 +6,7 @@
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/numeric/conversion/converter.hpp>
+#include <boost/timer/timer.hpp>
 #include <boost/assign.hpp>
 #include "Sortit.h"
 #include "IOSorter.h"
@@ -246,11 +247,12 @@ void SortIt::cleanStructure(const string dstPath) {
     }
 }
 
-void SortIt::printStats() {
+void SortIt::printStats(cpu_timer &timer) {
     cout << "************************************************" << endl;
     cout << "Overall multimedia files: " << m_statMultiFiles << endl;
     cout << "Files reallocated: " << m_statFilesMoved << endl;
     cout << "Duplications: " << m_statDuplications << endl;
+    cout << "Time: " << timer.format() << endl;
     cout << "************************************************" << endl;
 }
 
