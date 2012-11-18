@@ -88,7 +88,7 @@ int main(int argc, char** argv) {
         sorter.setRest(true);
     }
     
-    if (vm.count("no-rest")) {
+    if (vm.count("stats")) {
         sorter.setStatsFlag(true);
     }
 
