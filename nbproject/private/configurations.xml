@@ -24,9 +24,6 @@
       </nativedebugger>
       <runprofile version="9">
         <runcommandpicklist>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks --interleave=1 --no-rest</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/home/a/tmpbooks --destination=/home/a/tmpbooks --interleave=0 --no-rest</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/media/Boshlliku/Libra/Libra_Elektronik/_ZIP/Download --destination=/media/Boshlliku/Libra/Libra_Elektronik --interleave=0 --no-rest</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/media/Boshlliku/Libra/Libra_Elektronik/_ZIP/Download --destination=/media/Boshlliku/Libra/Libra_Elektronik --interleave=1 --no-rest</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --source=/media/Boshlliku/Libra/Libra_Elektronik --destination=/media/Boshlliku/Libra/Libra_Elektronik --interleave=1 --no-rest</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s=/home/a/tmpbooks -i=1 --no-rest</runcommandpicklistitem>
@@ -34,8 +31,11 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s . -i 1 --no-rest</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s . -i 1</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s /home/a/tmpbooks -i 1 --no-rest</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -s /home/a/public/afe/ -i 1 --no-rest</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -s /home/a/public/afe/ --no-rest</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -s /media/Boshlliku/Libra/Libra_Elektronik -i 1 --no-rest</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" -s /home/a/tmpbooks -i 1 --no-rest</runcommand>
+        <runcommand>"${OUTPUT_PATH}" -s /media/Boshlliku/Libra/Libra_Elektronik -i 1 --no-rest</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>
@@ -74,8 +74,8 @@
         <terminal-type>0</terminal-type>
         <remove-instrumentation>0</remove-instrumentation>
         <environment>
-          <variable name="--source" value="/home/a/tmpbooks"/>
-          <variable name="--destinaion" value="/home/a/tmpbooks"/>
+          <variable name="--source" value="/home/a/public/afe/"/>
+          <variable name="--destinaion" value="/home/a/public/afe/"/>
         </environment>
       </runprofile>
     </conf>

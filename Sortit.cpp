@@ -129,11 +129,14 @@ file_set_t SortIt::buildFileMap(vector<path> vec) {
             }
         }
 
+        // clean the name up
+        _filePath = cleanUpFileName(_filePath);
+        
         // _tmpDepth is the folder name which is going to be added to the path
         int _tmpDepth = this->m_treeDepth + 1;
 
         string fName = _filePath.filename().string();
-
+                
         // the filename has to be longer than the depth otherwise one cannot crate a folder.
         // TODO: otherwise put it on the parent folder
         if (fName.size() >= _tmpDepth) {
@@ -220,7 +223,7 @@ void SortIt::createStructure(const string dstPath, const int treeDepth, int rdep
         _recursion_dir_name.append(alpha);
 
         // building the path and crating the directory, only if it doesn't exist
-        string _tmp_path = dstPath + "/" + _recursion_dir_name;
+        string _tmp_path = dstPath + _recursion_dir_name;
         m_iosorter.safeCreateFolder(_tmp_path);
 
         // starting recursion to create subdirectories
@@ -245,6 +248,30 @@ void SortIt::cleanStructure(const string dstPath) {
         }
 
     }
+}
+
+path SortIt::cleanUpFileName(path file) {
+    string fName = file.filename().string();
+    
+    boost::replace_all(fName, ":", " ");
+    boost::replace_all(fName, "?", " ");
+    boost::replace_all(fName, "<", " ");
+    boost::replace_all(fName, ">", " ");
+    boost::replace_all(fName, "\"", " ");
+    boost::replace_all(fName, "/", " ");
+    boost::replace_all(fName, "\\", " ");
+    boost::replace_all(fName, "|", " ");
+    boost::replace_all(fName, "*", " ");
+    boost::replace_all(fName, "_", " ");
+    boost::replace_all(fName, "%", " ");
+    
+    
+    
+    path newFile = path(file.parent_path().string()+"/"+fName);
+    
+    rename(file, newFile);
+    
+    return newFile;
 }
 
 void SortIt::printStats(cpu_timer &timer) {

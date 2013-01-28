@@ -124,6 +124,14 @@ public:
     int isCorrectFile(path file);
     
     
+    /**
+     * Removes unsupported characters from the filename
+     * 
+     * @param file path of the file to be cleaned up
+     */
+    path cleanUpFileName(path file);
+    
+    
     // ------------------- Utils -----------------------------------------------
     void printStats(cpu_timer &timer);
 
